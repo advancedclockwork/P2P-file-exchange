@@ -5,6 +5,7 @@
  */
 package P2PClient;
 
+import TCPInteractionPrototype.ClientAction;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
@@ -20,7 +21,6 @@ public class Client {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
                 int directoryPort = 49000; //temp for testing
         int tcpPort = 2009;
         
@@ -32,7 +32,8 @@ public class Client {
             System.out.println("couldnt get host ip");
         }
         String message = "where in the world is carmen sandiego";
-        ClientAction client = new ClientAction(ip,tcpPort,message);
+        ClientAction client = new ClientAction(ip,tcpPort);
+        client.changeMessage(message);
         client.start();
         
     }
