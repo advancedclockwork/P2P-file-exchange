@@ -5,6 +5,7 @@
  */
 package P2PClient;
 
+import FolderManipulation.FolderReader;
 import TCPInteractionPrototype.ClientToServerAction;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -12,11 +13,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * 
  * @author Owen
  */
 public class Client {
-
+    private final static String path = "H:\\documents";
     /**
      * @param args the command line arguments
      */
@@ -31,13 +32,10 @@ public class Client {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("couldnt get host ip");
         }
-        String message = "where in the world is carmen sandiego";
         ClientToServerAction client = new ClientToServerAction(ip,tcpPort);
-        client.changeMessage(message);
         client.start();
-        client.changeMessage(message);
-        client.changeMessage("new message lets see if this works");
-        client.changeMessage("message 2");
+        FolderReader folder = new FolderReader(path);
+        client.changeMessage(folder.getContents());
         
     }
     
