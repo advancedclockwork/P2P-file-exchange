@@ -19,12 +19,11 @@ public class FolderReader {
         storage = new File(path);
     }
     
-    public String getContents()
+    public String getContents()  // make this recursive later to read contents of directories inside of selected directory
     {
         String response = "";
         File[] listOfFiles = storage.listFiles();
         for (int i = 0; i < listOfFiles.length; i++) {
-
             if (listOfFiles[i].isFile()) {
                 response += listOfFiles[i].getName() + " " + listOfFiles[i].length() + "\r\n";
             }
