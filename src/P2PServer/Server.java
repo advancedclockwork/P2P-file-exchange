@@ -5,6 +5,8 @@
  */
 package P2PServer;
 
+import DatabaseManager.Directory;
+import MessageManipulator.MessageInterpreter;
 import TCPInteractionPrototype.ServerAction;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -20,15 +22,21 @@ public class Server {
         int directoryPort = 49000; //temp for testing
         int tcpPort = 2009;
         InetAddress ip = printIP(); // still temp for testing
-        ServerAction server = new ServerAction(ip,tcpPort);
+        ServerAction server = new ServerAction(ip,directoryPort);
         server.start();
+        Directory directory = new Directory();
+        MessageInterpreter interpreter = new MessageInterpreter(directory);
+        while(server != null){
+            if(server.getMessage() != null)
+                interpreter.execute(server.getMessage(), server);
+        }
     }
     
     private static InetAddress printIP(){
         InetAddress ip = null;
         try {
             ip = InetAddress.getLocalHost();
-            System.out.println(ip);
+            System.out.println(ip.toString());
         } catch (UnknownHostException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("there was a problem printing your ip");

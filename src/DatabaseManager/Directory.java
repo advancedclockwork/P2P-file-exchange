@@ -5,6 +5,7 @@
  */
 package DatabaseManager;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -20,7 +21,7 @@ public class Directory {
     }
     
     
-    public void addToDirectory(String fileName, int fileSize, byte[] host){
+    public void addToDirectory(String fileName, int fileSize, InetAddress host){
         Entry entry = new Entry(fileName, host, fileSize);
         entries.add(entry);
     }
@@ -29,11 +30,11 @@ public class Directory {
      * gets a ip and removes all entries with that ip
      * @param host 
      */
-    public void removeHost(byte[] host)
+    public void removeHost(InetAddress host)
     {
         for(int i=0; i<entries.size(); i++)
         {
-            if(Arrays.equals(entries.get(i).getIp(),host) == true)
+            if(Arrays.equals(entries.get(i).getIp().getAddress(),host.getAddress()) == true)
             {
                 entries.remove(i);
                 i = i-1;
@@ -60,7 +61,7 @@ public class Directory {
         }
         if(queries.size()>0)
         {
-            response = composeMessage(queries);
+            response = getAllData(queries);
         }
         else
         {
@@ -75,7 +76,7 @@ public class Directory {
      */
     public String query()
     {
-        String response = composeMessage(entries);
+        String response = getAllData(entries);
         return response;
     }
     
@@ -84,21 +85,13 @@ public class Directory {
      * @param entries
      * @return 
      */
-    public String composeMessage(ArrayList<Entry> entries)
+    public String getAllData(ArrayList<Entry> entries)
     {
         String response = "\r\n";
         for(int i =0; i<entries.size(); i++)
         {
             Entry current = entries.get(i);
-            response += current.getName() + " " + current.getSize() + " ";
-            for(int j = 0; j<current.getIp().length; j++)
-            {
-                response += current.getIp()[j];
-                if(j < current.getIp().length-1)
-                {
-                    response += ".";
-                }
-            }
+            response += current.getName() + " " + current.getSize() + " " + current.getIp();
             response += "\r\n";
         }
         return response;

@@ -124,4 +124,8 @@ public abstract class TCPAction extends Thread{
     public void changeMessage(String message){
         this.message = message;
     }
+    
+    public String getMessage(){
+        return message;
+    }
 }

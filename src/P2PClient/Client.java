@@ -22,7 +22,7 @@ public class Client {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-                int directoryPort = 49000; //temp for testing
+        int directoryPort = 49000; //temp for testing
         int tcpPort = 2009;
         
         InetAddress ip = null;
@@ -32,11 +32,9 @@ public class Client {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("couldnt get host ip");
         }
-        ClientToServerAction client = new ClientToServerAction(ip,tcpPort);
+        ClientToServerAction client = new ClientToServerAction(ip,directoryPort);
         client.start();
         FolderReader folder = new FolderReader(path);
         client.changeMessage(folder.getContents());
-        
     }
-    
 }

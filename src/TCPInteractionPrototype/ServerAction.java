@@ -31,20 +31,21 @@ public class ServerAction extends TCPAction {
         Socket serverSocket = openCommSocket(welcomeSocket);
         OutputStream outToClient = startOutputStream(serverSocket);
         InputStream inFromClient = startInputStream(serverSocket);
-        DataOutputStream outStream = new DataOutputStream(outToClient);
-        DataInputStream inStream = new DataInputStream(inFromClient);
         while(true){
             if(inFromClient != null){
                 byte[] data = getIncomingData(inFromClient);
                 String dataToProcess = new String(data);
                 System.out.println("Message:"+dataToProcess);
+                
                 reply = 1;
             }
             if(outToClient != null && reply == 1){
                 sendMessage(outToClient,"message recieved");
                 reply = 0;
             }
-            
+            if(message != null){
+                sendMessage(outToClient,message);
+            }
         }
     }
 }

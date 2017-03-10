@@ -5,6 +5,8 @@
  */
 package DatabaseManager;
 
+import java.net.InetAddress;
+
 /**
  * entry object containing filename, ip of host and size of file
  * @author o
@@ -12,10 +14,10 @@ package DatabaseManager;
 public class Entry {
     
     private String name;
-    private byte[] ip = new byte[4];
+    private InetAddress ip;
     private int size;
     
-    public Entry(String name, byte[] ip, int size)
+    public Entry(String name, InetAddress ip, int size)
     {
         this.name = name;
         this.ip = ip;
@@ -27,7 +29,7 @@ public class Entry {
     public int getSize(){
         return size;
     }
-    public byte[] getIp(){
+    public InetAddress getIp(){
         return ip;
     }
 }
