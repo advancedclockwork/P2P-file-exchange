@@ -5,7 +5,8 @@
  */
 package P2PClient;
 
-import FolderManipulation.FolderReader;
+import MessageManipulator.FolderReader;
+import MessageManipulator.MessageWriter;
 import TCPInteractionPrototype.ClientToServerAction;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -24,6 +25,7 @@ public class Client {
     public static void main(String[] args) {
         int directoryPort = 49000; //temp for testing
         int tcpPort = 2009;
+        int command = 1;
         
         InetAddress ip = null;
         try {
@@ -34,7 +36,8 @@ public class Client {
         }
         ClientToServerAction client = new ClientToServerAction(ip,directoryPort);
         client.start();
-        FolderReader folder = new FolderReader(path);
-        client.changeMessage(folder.getContents());
+        MessageWriter writer = new MessageWriter();
+        String message = writer.composeMessage(command, ip, path);
+        client.changeMessage(message);
     }
 }

@@ -9,7 +9,7 @@ package MessageManipulator;
  *
  * @author Owen
  */
-public abstract class MessagerData {
+public abstract class MessageData {
     protected final String messageDivider = "&@&^";
     protected final String entryDivider= "%$#@";
     protected final String commandDivider = "^%$#";

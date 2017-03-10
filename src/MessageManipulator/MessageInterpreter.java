@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  *
  * @author Owen
  */
-public class MessageInterpreter extends MessagerData{
+public class MessageInterpreter extends MessageData{
     private final Directory directory;
     public MessageInterpreter(Directory directory){
         this.directory = directory;
@@ -30,6 +30,7 @@ public class MessageInterpreter extends MessagerData{
             case 1: 
                 addUserToDirectory(commandSplit[1]);
                 result = directory.query();
+                System.out.println(result);
                 break;
             case 2:
                 result = directory.query();

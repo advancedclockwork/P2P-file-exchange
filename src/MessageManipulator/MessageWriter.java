@@ -4,25 +4,19 @@
  * and open the template in the editor.
  */
 package MessageManipulator;
-
-import DatabaseManager.Entry;
 import java.net.InetAddress;
-import java.util.ArrayList;
 
 /**
  *
  * @author Owen
  */
-public class MessageWriter extends MessagerData{
+public class MessageWriter extends MessageData{
     
-    public String composeMessage(ArrayList<Entry> entries, int command, InetAddress ip)
+    public String composeMessage(int command, InetAddress ip, String path)
     {
         String response = command + commandDivider + ip.toString() + ipDivider;
-        for(int i =0; i<entries.size(); i++)
-        {
-            Entry current = entries.get(i);
-            response += current.getName() + entryDivider + current.getSize() + messageDivider;
-        }
+        FolderReader reader = new FolderReader(path);
+        response += reader.getContents();
         return response;
     }
 }
