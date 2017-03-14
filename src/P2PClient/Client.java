@@ -5,7 +5,6 @@
  */
 package P2PClient;
 
-import MessageManipulator.FolderReader;
 import MessageManipulator.MessageWriter;
 import TCPInteractionPrototype.ClientToServerAction;
 import java.net.InetAddress;
@@ -14,12 +13,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * 
+ * The main class for the client. mostly for testing at the moment. will probably replace with an applet or something at some point
  * @author Owen
  */
 public class Client {
     private final static String path = "H:\\documents";
     /**
+     * main class for the client. most hard coded values are for testing and stuff atm so its pretty automated
      * @param args the command line arguments
      */
     public static void main(String[] args) {

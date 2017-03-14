@@ -14,14 +14,29 @@ import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
- *
+ * Class that reads incoming messages and translates them into entry objects to be stored in a directory object
  * @author Owen
  */
 public class MessageInterpreter extends MessageData{
     private final Directory directory;
+
+    /**
+     * MessageInterpriter constructor with a directory object passed to it from the main class
+     * @param directory is the directory object passed from the main class to store entries
+     */
     public MessageInterpreter(Directory directory){
         this.directory = directory;
     }
+
+    /**
+     * recieves the raw message, strips the command off of it and uses the command to determine what to do with the rest of the message.
+     * options: 
+     * 1. inform and update(update the current directory of files to share with files provided by client in message
+     * 2. request file info(client wishes to have a file transferred to it and needs a list of ips of other clients that have the file
+     * 3. remove user(erase all entries in directory sharing the clients ip
+     * @param message is the raw message from client
+     * @param server is the Server action thread the message was recieved from so a return message can be sent
+     */
     public void execute(String message, ServerAction server){
         String result = "";
         String[] commandSplit = message.split(commandDivider);
@@ -44,7 +59,10 @@ public class MessageInterpreter extends MessageData{
         }
                 
     } 
-    
+     /**
+      * adds entire user to the database by taking the message, splitting the ip off of it, splitting it into entries, and finally splitting those entries into filename and size. it then inserts each entry into the directory
+      * @param message is the raw message minus the stripped command
+      */
     private void addUserToDirectory(String message)
     {
         //System.out.println("on its way to directory");

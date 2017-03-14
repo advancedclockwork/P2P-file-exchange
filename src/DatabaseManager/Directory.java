@@ -11,6 +11,7 @@ import java.util.Arrays;
 
 /**
  *  directory holding all entrys
+ *  i should make this a singleton later and make it a proper database, but this works for now
  * @author owen
  */
 public class Directory {

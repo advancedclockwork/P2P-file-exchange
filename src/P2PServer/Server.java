@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * main class for the server side. most everything is for testing and will probably be replaced with an applet
  * @author Owen
  */
 public class Server {
@@ -31,7 +31,10 @@ public class Server {
                 interpreter.execute(server.getMessage(), server);
         }
     }
-    
+    /**
+     * prints the ip of the machine the server is running on for easy input when testing
+     * @return 
+     */
     private static InetAddress printIP(){
         InetAddress ip = null;
         try {
