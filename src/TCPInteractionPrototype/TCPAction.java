@@ -145,7 +145,7 @@ public abstract class TCPAction implements Runnable{
             outSocket = new Socket(ip,port);
         } catch (IOException ex) {
             Logger.getLogger(ClientToServerAction.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("problem opening outgoing socket");
+            System.out.println("problem connecting to server socket");
         }
         return outSocket;
     }

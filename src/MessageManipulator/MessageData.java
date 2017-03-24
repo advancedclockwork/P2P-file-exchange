@@ -15,20 +15,15 @@ public interface MessageData {
     /**
      * marks the division of one entry to another
      */
-    static final String messageDivider = "&@&^";
+    static final String messageDivider = "&@&%";
 
     /**
      * marks the division of the filename and the file's size
      */
-    static final String entryDivider= "%$#@";
+    static final String entryDivider= "%%#@";
 
     /**
      * marks the division of the command sent to the server and the rest of the message
      */
-    static final String commandDivider = "^%$#";
-
-    /**
-     * marks the division of the ip included in the message and the rest of the message
-     */
-    static final String ipDivider = "%_#@";
+    static final String commandDivider = "!%%#";
 }

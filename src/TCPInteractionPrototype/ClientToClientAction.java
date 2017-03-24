@@ -9,6 +9,6 @@ package TCPInteractionPrototype;
  *
  * @author Owen
  */
-public class ClientToClientSender {
+public class ClientToClientAction {
     
 }

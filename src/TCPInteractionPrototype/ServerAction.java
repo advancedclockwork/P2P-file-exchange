@@ -5,6 +5,7 @@
  */
 package TCPInteractionPrototype;
 
+import DatabaseManager.Directory;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -14,14 +15,15 @@ import java.net.Socket;
  * @author Owen
  */
 public class ServerAction extends TCPAction {
-    private Thread runningThread = null;
     private ServerSocket welcomeSocket = null;
+    private final Directory directory;
     /**
      * Constructor for creating new ServerAction object. may have to make this a factory to facilitate multiple users at one time
      * @param port is the port number to be used for the ServerSocket initialization
      */
-    public ServerAction(int port){    
+    public ServerAction(int port, Directory directory){    
         this.port = port;
+        this.directory = directory;
     }
     
     /**
@@ -29,14 +31,10 @@ public class ServerAction extends TCPAction {
      */
     @Override
     public void run(){
-        int reply = 0;
-        synchronized(this){
-            this.runningThread = Thread.currentThread();
-        }
         welcomeSocket = openServSocket(port);
         while(isRunning){
             Socket serverSocket = openCommSocket(welcomeSocket);
-            new Thread(new ServerThread(serverSocket, "ServerAction")).start();
+            new Thread(new ServerThread(serverSocket, directory)).start();
         }
     }
     

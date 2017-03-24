@@ -5,55 +5,50 @@
  */
 package TCPInteractionPrototype;
 
+import DatabaseManager.Directory;
+import MessageManipulator.MessageInterpreter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author Owen
  */
 public class ServerThread extends TCPAction {
-    private Socket serverSocket;
-    
-    public ServerThread(Socket serverSocket, String message){
+    private final Socket serverSocket;
+    private int reply = 0;
+    private Directory directory;
+    public ServerThread(Socket serverSocket, Directory directory){
         this.serverSocket = serverSocket;
-        this.message = message;
+        this.directory = directory;
     }
     
     public void run(){
-    OutputStream outToClient = startOutputStream(serverSocket);
-    InputStream inFromClient = startInputStream(serverSocket);
-    long time = System.currentTimeMillis();
-        try {
-            outToClient.write(("HTTP/1.1 200 OK\n\nWorkerRunnable: " + message + " - " + time + "").getBytes());
-        } catch (IOException ex) {
-            Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex);
+        while(isRunning == true){
+            OutputStream outToClient = startOutputStream(serverSocket);
+            InputStream inFromClient = startInputStream(serverSocket);
+            MessageInterpreter interpreter = new MessageInterpreter(directory);
+            if(inFromClient != null){
+                byte[] data = getIncomingData(inFromClient);
+                String dataToProcess = new String(data);
+                interpreter.execute(dataToProcess, this, serverSocket.getInetAddress());
+                System.out.println("Message from client: " + dataToProcess);
+            }
+            if(message != null){
+                sendMessage(outToClient,message);
+                System.out.println("query Processed: " + message);
+                try{
+                    outToClient.close();
+                    inFromClient.close();
+                    serverSocket.close();
+                    System.out.println("thread closed");
+                    isRunning = false;
+                }catch(IOException e){
+                    e.printStackTrace();
+                }
+            }
         }
-        try{
-        outToClient.close();
-        inFromClient.close();
-        }catch(IOException e){
-            e.printStackTrace();
-        }
     }
-    
-    /*
-    if(inFromClient != null){
-    byte[] data = getIncomingData(inFromClient);
-    String dataToProcess = new String(data);
-    System.out.println("Message:"+dataToProcess);
-    reply = 1;
-    }
-    if(outToClient != null && reply == 1){
-        sendMessage(outToClient,"message recieved");
-        reply = 0;
-    }
-    if(message != null){
-        sendMessage(outToClient,message);
-    }
-    */
 }

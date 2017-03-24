@@ -21,9 +21,14 @@ public class MessageWriter implements MessageData{
      */
     public String composeMessage(int command, InetAddress ip, String path)
     {
-        String response = command + commandDivider + ip.toString() + ipDivider;
+        String response = command + commandDivider;
         FolderReader reader = new FolderReader(path);
         response += reader.getContents();
         return response;
+    }
+    
+    public String composeServerResponse(String name, int size, InetAddress ip){
+        String entry = name + messageDivider + size + messageDivider + ip + entryDivider;
+        return entry;
     }
 }

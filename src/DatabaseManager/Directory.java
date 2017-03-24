@@ -5,6 +5,7 @@
  */
 package DatabaseManager;
 
+import MessageManipulator.MessageWriter;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -88,13 +89,20 @@ public class Directory {
      */
     public String getAllData(ArrayList<Entry> entries)
     {
-        String response = "\r\n";
+        MessageWriter writer = new MessageWriter();
+        String response = "";
         for(int i =0; i<entries.size(); i++)
         {
             Entry current = entries.get(i);
-            response += current.getName() + " " + current.getSize() + " " + current.getIp();
-            response += "\r\n";
+            response += writer.composeServerResponse(current.getName(), current.getSize(), current.getIp());
         }
         return response;
+    }
+    
+    public void printDirectory(){
+        for(int i = 0; i<entries.size(); i++){
+            Entry current = entries.get(i);
+            System.out.println(current);
+        }
     }
 }

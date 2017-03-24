@@ -6,7 +6,6 @@
 package P2PServer;
 
 import DatabaseManager.Directory;
-import MessageManipulator.MessageInterpreter;
 import TCPInteractionPrototype.ServerAction;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -21,23 +20,9 @@ public class Server {
     public static void main(String[] args){
         int directoryPort = 9000; //temp for testing
         printIP(); // still temp for testing
-        ServerAction server = new ServerAction(directoryPort);
+        Directory directory = new Directory();
+        ServerAction server = new ServerAction(directoryPort, directory);
         new Thread(server).start();
-        
-        try {
-            Thread.sleep(20 * 1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Stopping Server");
-        server.stop();
-        //server.run();
-        //Directory directory = new Directory();
-        //MessageInterpreter interpreter = new MessageInterpreter(directory);
-        //while(server != null){
-        //    if(server.getMessage() != null)
-        //        interpreter.execute(server.getMessage(), server);
-        //}
     }
     /**
      * prints the ip of the machine the server is running on for easy input when testing

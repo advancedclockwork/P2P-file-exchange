@@ -5,6 +5,7 @@
  */
 package P2PClient;
 
+import DatabaseManager.Directory;
 import MessageManipulator.MessageWriter;
 import TCPInteractionPrototype.ClientToServerAction;
 import TCPInteractionPrototype.ServerAction;
@@ -24,9 +25,10 @@ public class Client2 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        int directoryPort = 49001; //temp for testing
+        int directoryPort = 9000; //temp for testing
         int tcpPort = 2007;
         int command = 1;
+        Directory localDirectory = new Directory();
         
         InetAddress ip = null;
         try {
@@ -35,16 +37,17 @@ public class Client2 {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("couldnt get host ip");
         }
-        ClientToServerAction client = new ClientToServerAction(ip,directoryPort);
-        ServerAction server = new ServerAction(tcpPort);
+        ClientToServerAction client = new ClientToServerAction(ip,directoryPort, localDirectory);
+        ServerAction server = new ServerAction(tcpPort, localDirectory);
         System.out.println("path: " + path);
-        client.run();
-        System.out.println("system started");
-        server.run();
+        new Thread(client).start();
+        System.out.println("client started");
+        new Thread(server).start();
         System.out.println("server started");
         MessageWriter writer = new MessageWriter();
         String message = writer.composeMessage(command, ip, path);
         System.out.println("message to send: " + message);
         client.changeMessage(message);
+        localDirectory.printDirectory();
     }
 }
