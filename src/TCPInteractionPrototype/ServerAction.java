@@ -5,9 +5,7 @@
  */
 package TCPInteractionPrototype;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.InetAddress;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -16,15 +14,14 @@ import java.net.Socket;
  * @author Owen
  */
 public class ServerAction extends TCPAction {
-    
+    private Thread runningThread = null;
+    private ServerSocket welcomeSocket = null;
     /**
      * Constructor for creating new ServerAction object. may have to make this a factory to facilitate multiple users at one time
-     * @param ip is the servers ip, but may remove because im not sure its ever used
      * @param port is the port number to be used for the ServerSocket initialization
      */
-    public ServerAction(InetAddress ip, int port){    
+    public ServerAction(int port){    
         this.port = port;
-        this.ip = ip;
     }
     
     /**
@@ -33,25 +30,22 @@ public class ServerAction extends TCPAction {
     @Override
     public void run(){
         int reply = 0;
-        ServerSocket welcomeSocket = openServSocket(port);
-        Socket serverSocket = openCommSocket(welcomeSocket);
-        OutputStream outToClient = startOutputStream(serverSocket);
-        InputStream inFromClient = startInputStream(serverSocket);
-        while(true){
-            if(inFromClient != null){
-                byte[] data = getIncomingData(inFromClient);
-                String dataToProcess = new String(data);
-                System.out.println("Message:"+dataToProcess);
-                
-                reply = 1;
-            }
-            if(outToClient != null && reply == 1){
-                sendMessage(outToClient,"message recieved");
-                reply = 0;
-            }
-            if(message != null){
-                sendMessage(outToClient,message);
-            }
+        synchronized(this){
+            this.runningThread = Thread.currentThread();
+        }
+        welcomeSocket = openServSocket(port);
+        while(isRunning){
+            Socket serverSocket = openCommSocket(welcomeSocket);
+            new Thread(new ServerThread(serverSocket, "ServerAction")).start();
+        }
+    }
+    
+    public synchronized void stop(){
+        this.isRunning = false;
+        try {
+            this.welcomeSocket.close();
+        } catch (IOException e) {
+            throw new RuntimeException("Error closing server", e);
         }
     }
 }

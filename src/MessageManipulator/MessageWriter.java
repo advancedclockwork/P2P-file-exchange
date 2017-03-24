@@ -10,7 +10,7 @@ import java.net.InetAddress;
  * composes a message that can be interpreted by the server
  * @author Owen
  */
-public class MessageWriter extends MessageData{
+public class MessageWriter implements MessageData{
     
     /**
      * adds command and the clients ip to the message to be sent, then starts a fileReader object and adds that to the message as well, and returns the new raw message

@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  * Methods for the ClientAction and ServerAction threads. some dont belong in the prototype, but will sort hat out later
  * @author Owen
  */
-public abstract class TCPAction extends Thread{
+public abstract class TCPAction implements Runnable{
 
     /**
      * ip of the client or host
@@ -45,6 +45,11 @@ public abstract class TCPAction extends Thread{
      * used to separate the amount of data the receiver should expect from the message itself
      */
     protected String messageDivider = "{*~!";
+    /**
+     * status of connection
+     */
+    protected boolean isRunning = true;
+    
     
     /**
      * adds the size of the message to the message, converts it to a byteStream and sends it while handling errors
@@ -104,7 +109,7 @@ public abstract class TCPAction extends Thread{
             welcomeSocket = new ServerSocket(port);
         } catch (IOException ex) {
             Logger.getLogger(ServerAction.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("had trouble opening the server socket");
+            System.out.println("had trouble opening the server socket on port " + port);
         }
         return welcomeSocket;
     }

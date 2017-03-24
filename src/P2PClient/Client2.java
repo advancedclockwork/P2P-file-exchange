@@ -17,15 +17,15 @@ import java.util.logging.Logger;
  * The main class for the client. mostly for testing at the moment. will probably replace with an applet or something at some point
  * @author Owen
  */
-public class Client {
-    private final static String path = "H:\\documents";
+public class Client2 {
+    private final static String path = "H:\\test";
     /**
      * main class for the client. most hard coded values are for testing and stuff atm so its pretty automated
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        int directoryPort = 49000; //temp for testing
-        int tcpPort = 2009;
+        int directoryPort = 49001; //temp for testing
+        int tcpPort = 2007;
         int command = 1;
         
         InetAddress ip = null;
@@ -39,7 +39,7 @@ public class Client {
         ServerAction server = new ServerAction(tcpPort);
         System.out.println("path: " + path);
         client.run();
-        System.out.println("client started");
+        System.out.println("system started");
         server.run();
         System.out.println("server started");
         MessageWriter writer = new MessageWriter();

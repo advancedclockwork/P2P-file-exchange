@@ -10,7 +10,7 @@ import java.io.File;
  *
  * @author owen
  */
-public class FolderReader extends MessageData{
+public class FolderReader implements MessageData{
     private File storage;
     
     /**
@@ -25,6 +25,7 @@ public class FolderReader extends MessageData{
      * reads all files in the selected directory and return them as a string separated with messageDivider and entryDivider final variables contained in MessageData
      * @return string of folders with custom dividers contained in MessageData
      */
+    
     public String getContents()  // make this recursive later to read contents of directories inside of selected directory
     {
         String response = "";

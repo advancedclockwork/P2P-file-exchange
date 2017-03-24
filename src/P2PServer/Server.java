@@ -19,17 +19,25 @@ import java.util.logging.Logger;
  */
 public class Server {
     public static void main(String[] args){
-        int directoryPort = 49000; //temp for testing
-        int tcpPort = 2009;
-        InetAddress ip = printIP(); // still temp for testing
-        ServerAction server = new ServerAction(ip,directoryPort);
-        server.start();
-        Directory directory = new Directory();
-        MessageInterpreter interpreter = new MessageInterpreter(directory);
-        while(server != null){
-            if(server.getMessage() != null)
-                interpreter.execute(server.getMessage(), server);
+        int directoryPort = 9000; //temp for testing
+        printIP(); // still temp for testing
+        ServerAction server = new ServerAction(directoryPort);
+        new Thread(server).start();
+        
+        try {
+            Thread.sleep(20 * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        System.out.println("Stopping Server");
+        server.stop();
+        //server.run();
+        //Directory directory = new Directory();
+        //MessageInterpreter interpreter = new MessageInterpreter(directory);
+        //while(server != null){
+        //    if(server.getMessage() != null)
+        //        interpreter.execute(server.getMessage(), server);
+        //}
     }
     /**
      * prints the ip of the machine the server is running on for easy input when testing

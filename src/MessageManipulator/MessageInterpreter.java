@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  * Class that reads incoming messages and translates them into entry objects to be stored in a directory object
  * @author Owen
  */
-public class MessageInterpreter extends MessageData{
+public class MessageInterpreter implements MessageData{
     private final Directory directory;
 
     /**
