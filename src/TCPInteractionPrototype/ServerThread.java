@@ -18,18 +18,18 @@ import java.net.Socket;
  */
 public class ServerThread extends TCPAction {
     private final Socket serverSocket;
-    private int reply = 0;
-    private Directory directory;
+    private final Directory directory;
     public ServerThread(Socket serverSocket, Directory directory){
         this.serverSocket = serverSocket;
         this.directory = directory;
     }
     
+    @Override
     public void run(){
+        OutputStream outToClient = startOutputStream(serverSocket);
+        InputStream inFromClient = startInputStream(serverSocket);
+        MessageInterpreter interpreter = new MessageInterpreter(directory);
         while(isRunning == true){
-            OutputStream outToClient = startOutputStream(serverSocket);
-            InputStream inFromClient = startInputStream(serverSocket);
-            MessageInterpreter interpreter = new MessageInterpreter(directory);
             if(inFromClient != null){
                 byte[] data = getIncomingData(inFromClient);
                 String dataToProcess = new String(data);

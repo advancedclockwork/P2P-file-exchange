@@ -13,9 +13,9 @@ import java.net.InetAddress;
  */
 public class Entry {
     
-    private String name;
-    private InetAddress ip;
-    private int size;
+    private final String name;
+    private final InetAddress ip;
+    private final int size;
     
     public Entry(String name, InetAddress ip, int size)
     {

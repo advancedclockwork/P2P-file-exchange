@@ -16,10 +16,21 @@ import java.util.Arrays;
  * @author owen
  */
 public class Directory {
-    ArrayList<Entry> entries = new ArrayList();
+    private final ArrayList<Entry> entries = new ArrayList();
+    private String path;
     
-    
+    /**
+     * constructor for Server
+     */
     public Directory(){ 
+    }
+    
+    /**
+     * constructor for local server
+     * @param path 
+     */
+    public Directory(String path){
+        this.path = path;
     }
     
     
@@ -94,7 +105,7 @@ public class Directory {
         for(int i =0; i<entries.size(); i++)
         {
             Entry current = entries.get(i);
-            response += writer.composeServerResponse(current.getName(), current.getSize(), current.getIp());
+            response += writer.composeInformAndUpdateResponse(current.getName(), current.getSize(), current.getIp());
         }
         return response;
     }
@@ -104,5 +115,9 @@ public class Directory {
             Entry current = entries.get(i);
             System.out.println(current);
         }
+    }
+    
+    public String getPath(){
+        return path;
     }
 }

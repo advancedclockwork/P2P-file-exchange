@@ -7,6 +7,7 @@ package MessageManipulator;
 
 
 import DatabaseManager.Directory;
+import FileOperations.FileReader;
 import TCPInteractionPrototype.ServerThread;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -31,8 +32,10 @@ public class MessageInterpreter implements MessageData{
      * recieves the raw message, strips the command off of it and uses the command to determine what to do with the rest of the message.
      * options: 
      * 1. inform and update(update the current directory of files to share with files provided by client in message
-     * 2. request file info(client wishes to have a file transferred to it and needs a list of ips of other clients that have the file
-     * 3. remove user(erase all entries in directory sharing the clients ip
+     * 2. inform and update Response
+     * 3. request file
+     * 4. request file response
+     * 5. remove user(erase all entries in directory sharing the clients ip
      * @param message is the raw message from client
      * @param server is the Server action thread the message was recieved from so a return message can be sent
      */
@@ -40,13 +43,13 @@ public class MessageInterpreter implements MessageData{
         String result = "";
         String[] commandSplit = message.split(commandDivider);
         MessageWriter writer = new MessageWriter();
-        System.out.println("interpriter recieved data. command split: " + commandSplit[1]);
+        //System.out.println("interpriter recieved data. command split: " + commandSplit[1]);
         //String command = Integer.parseInt(commandSplit[0]);
         switch (commandSplit[0]){
             case "1": 
                 addToDirectory(commandSplit[1], ip);
                 result = directory.query();
-                //writer.composeServerResponse(result);
+                //writer.composeInformAndUpdateResponse(result);
                 server.changeMessage(result);
                 System.out.println(result);
                 break;
@@ -55,8 +58,12 @@ public class MessageInterpreter implements MessageData{
                 server.changeMessage(result);
                 break;
             case "3":
-                //result = directory.query(commandSplit[1],)
-                //break;
+                FileReader reader = new FileReader(commandSplit[1], directory.getPath());
+                byte[] toSend = reader.readFile();
+                message = new String(toSend);
+                server.changeMessage(message);
+                break;
+            //case 4 is handled by client to client action. may change that later
             default:
                 break;
         }

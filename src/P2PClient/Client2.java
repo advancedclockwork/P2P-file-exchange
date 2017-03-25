@@ -7,6 +7,7 @@ package P2PClient;
 
 import DatabaseManager.Directory;
 import MessageManipulator.MessageWriter;
+import TCPInteractionPrototype.ClientToClientAction;
 import TCPInteractionPrototype.ClientToServerAction;
 import TCPInteractionPrototype.ServerAction;
 import java.net.InetAddress;
@@ -20,6 +21,7 @@ import java.util.logging.Logger;
  */
 public class Client2 {
     private final static String path = "H:\\test";
+    private final static String fileName = "LorenzianWheelV1.mp4";
     /**
      * main class for the client. most hard coded values are for testing and stuff atm so its pretty automated
      * @param args the command line arguments
@@ -27,8 +29,7 @@ public class Client2 {
     public static void main(String[] args) {
         int directoryPort = 9000; //temp for testing
         int tcpPort = 2007;
-        int command = 1;
-        Directory localDirectory = new Directory();
+        Directory localDirectory = new Directory(path);
         
         InetAddress ip = null;
         try {
@@ -45,9 +46,13 @@ public class Client2 {
         new Thread(server).start();
         System.out.println("server started");
         MessageWriter writer = new MessageWriter();
-        String message = writer.composeMessage(command, ip, path);
+        String message = writer.composeInformAndUpdate(ip, path);
         System.out.println("message to send: " + message);
         client.changeMessage(message);
         localDirectory.printDirectory();
+        ClientToClientAction request = new ClientToClientAction(ip, 2009, path, fileName);
+        String message2 = writer.composeFileRequest(fileName);
+        request.changeMessage(message2);
+        new Thread(request).start();
     }
 }

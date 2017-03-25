@@ -19,16 +19,21 @@ public class MessageWriter implements MessageData{
      * @param path is the file path which the client wishes to share
      * @return the new raw message for the server
      */
-    public String composeMessage(int command, InetAddress ip, String path)
+    public String composeInformAndUpdate(InetAddress ip, String path)
     {
-        String response = command + commandDivider;
+        String response = "1" + commandDivider;
         FolderReader reader = new FolderReader(path);
         response += reader.getContents();
         return response;
     }
     
-    public String composeServerResponse(String name, int size, InetAddress ip){
+    public String composeInformAndUpdateResponse(String name, int size, InetAddress ip){
         String entry = name + messageDivider + size + messageDivider + ip + entryDivider;
         return entry;
+    }
+    
+    public String composeFileRequest(String name){
+        String request = "3" + commandDivider + name;
+        return request;
     }
 }
