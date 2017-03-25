@@ -60,8 +60,7 @@ public class MessageInterpreter implements MessageData{
             case "3":
                 FileReader reader = new FileReader(commandSplit[1], directory.getPath());
                 byte[] toSend = reader.readFile();
-                message = new String(toSend);
-                server.changeMessage(message);
+                server.changeFile(toSend);
                 break;
             //case 4 is handled by client to client action. may change that later
             default:

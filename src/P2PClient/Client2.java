@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  */
 public class Client2 {
     private final static String path = "H:\\test";
-    private final static String fileName = "LorenzianWheelV1.mp4";
+    private final static String fileName = "2.pptx";
     /**
      * main class for the client. most hard coded values are for testing and stuff atm so its pretty automated
      * @param args the command line arguments

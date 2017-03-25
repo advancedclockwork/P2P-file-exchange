@@ -50,6 +50,8 @@ public abstract class TCPAction implements Runnable{
      */
     protected boolean isRunning = true;
     
+    byte[] fileData = null;
+    
     
     /**
      * adds the size of the message to the message, converts it to a byteStream and sends it while handling errors
@@ -64,6 +66,14 @@ public abstract class TCPAction implements Runnable{
         } catch (IOException ex) {
             Logger.getLogger(ClientToServerAction.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("error writing to output stream");
+        }
+    }
+    
+    protected void sendFile(OutputStream outToClient, byte[] fileData){
+        try {
+            outToClient.write(fileData, 0, fileData.length);
+        } catch (IOException ex) {
+            Logger.getLogger(TCPAction.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -193,6 +203,10 @@ public abstract class TCPAction implements Runnable{
      */
     public void changeMessage(String message){
         this.message = message;
+    }
+    
+    public void changeFile(byte[] fileData){
+        this.fileData = fileData;
     }
     
     /**

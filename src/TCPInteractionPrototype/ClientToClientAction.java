@@ -5,9 +5,8 @@
  */
 package TCPInteractionPrototype;
 
-import DatabaseManager.Directory;
 import FileOperations.FileWriter;
-import MessageManipulator.MessageInterpreter;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -50,7 +49,12 @@ public class ClientToClientAction extends TCPAction{
                 message = null;
             }
             if(inFromServer != null){
-                byte[] data = getIncomingData(inFromServer);
+                byte[] data = null;
+                try {
+                    data = readFileIn(inFromServer);
+                } catch (IOException ex) {
+                    Logger.getLogger(ClientToClientAction.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 FileWriter writer = new FileWriter(fileName, path, data);
                 writer.writeFile();
                 try {
@@ -64,5 +68,23 @@ public class ClientToClientAction extends TCPAction{
                 isRunning = false;
             }
         }
+    }
+    private byte[] readFileIn(InputStream inFromServer) throws IOException{
+        ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
+        try {
+            byte[] aByte = new byte[1];
+            int bytesRead = inFromServer.read(aByte, 0, aByte.length);
+            do{
+                dataStream.write(aByte);
+                bytesRead = inFromServer.read(aByte);
+            } while (bytesRead != -1);
+            byte[] data = dataStream.toByteArray();
+            dataStream.flush();
+            dataStream.close();
+            return data;
+        } catch (IOException ex) {
+            Logger.getLogger(ClientToClientAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

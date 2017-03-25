@@ -49,6 +49,19 @@ public class ServerThread extends TCPAction {
                     e.printStackTrace();
                 }
             }
+            if(fileData != null){
+                sendFile(outToClient,fileData);
+                System.out.println("query Processed: " + message);
+                try{
+                    outToClient.close();
+                    inFromClient.close();
+                    serverSocket.close();
+                    System.out.println("thread closed");
+                    isRunning = false;
+                }catch(IOException e){
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
