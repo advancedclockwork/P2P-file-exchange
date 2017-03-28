@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  * @author Owen
  */
 public class FileReader extends FileOperator{
-        public FileReader(String name, String path){
+    public FileReader(String name, String path){
         this.fileName = name;
         this.path = path;
     }
@@ -41,6 +41,7 @@ public class FileReader extends FileOperator{
         }
         else{
             System.out.println("file does not exist");
+            System.out.println(path + "\\" + fileName);
         }
         return fileData;
     }

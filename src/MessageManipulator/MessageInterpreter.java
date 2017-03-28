@@ -116,7 +116,7 @@ public class MessageInterpreter implements MessageData{
                 Logger.getLogger(MessageInterpreter.class.getName()).log(Level.SEVERE, null, ex);
             }
             if(!compareTo.equals(ip)){
-            //System.out.println("entry " + i + " name: " + name + " size: " + size + " ip: " + ip.toString());
+            System.out.println("entry " + i + " name: " + name + " size: " + size + " ip: " + ip.toString());
                 directory.addToDirectory(name, size, ip);
             }
         }

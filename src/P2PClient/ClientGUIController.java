@@ -60,7 +60,7 @@ public class ClientGUIController extends VBox{
         ClientToServerAction action = new ClientToServerAction(serverIp, serverPort, localDirectory);
         new Thread(action).start();
         MessageWriter writer = new MessageWriter();
-        String message = writer.composeInformAndUpdate(serverIp, PATH);
+        String message = writer.composeInformAndUpdate(serverIp, localDirectory.getPath());
         action.changeMessage(message);
     }
     
@@ -69,7 +69,7 @@ public class ClientGUIController extends VBox{
         Entry focus = downloadableFilesTable.getSelectionModel().getSelectedItem();
         InetAddress clientIP = focus.getIp();
         String fileName = focus.getName();
-        ClientToClientAction request = new ClientToClientAction(clientIP, requestPort, PATH, fileName );
+        ClientToClientAction request = new ClientToClientAction(clientIP, requestPort, localDirectory.getPath(), fileName );
         MessageWriter writer = new MessageWriter();
         String message = writer.composeFileRequest(fileName);
         request.changeMessage(message);
@@ -85,7 +85,6 @@ public class ClientGUIController extends VBox{
     private final InetAddress serverIp;
     private final Directory localDirectory;
     private final ObservableList<Entry> entries;
-    private final static String PATH = "H:\\documents\\My Documents";
     private final int requestPort = 9007;
     
     
