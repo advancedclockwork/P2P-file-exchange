@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<fx:root type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
+<Pane maxHeight="402.0" maxWidth="600.0" minHeight="402.0" minWidth="600.0" prefHeight="402.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ScrollPane fx:id="entryScrollPlane" fitToHeight="true" fitToWidth="true" layoutX="300.0" layoutY="14.0" prefHeight="375.0" prefWidth="287.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="374.0" prefWidth="285.0">
+               <children>
+                  <TableView fx:id="entryTable" layoutY="-2.0" prefHeight="375.0" prefWidth="287.0" AnchorPane.rightAnchor="-2.0">
+                    <columns>
+                      <TableColumn fx:id="entryNameColumn" prefWidth="103.66668701171875" text="File Name" />
+                      <TableColumn fx:id="entrySizeColumn" prefWidth="58.33331298828125" text="Size" />
+                        <TableColumn fx:id="entryUserColumn" prefWidth="124.66668701171875" text="User Providing" />
+                    </columns>
+                     <opaqueInsets>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </opaqueInsets>
+                  </TableView>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+      <ScrollPane fx:id="userScrollPlane" fitToHeight="true" fitToWidth="true" layoutX="14.0" layoutY="53.0" prefHeight="335.0" prefWidth="287.0">
+            <content>
+               <ListView id="userList" prefHeight="200.0" prefWidth="200.0" />
+            </content>
+      </ScrollPane>
+      <Pane fx:id="namePlate" layoutX="14.0" layoutY="14.0" prefHeight="40.0" prefWidth="287.0">
+         <children>
+            <Label layoutX="1.0" layoutY="2.0" prefHeight="33.0" prefWidth="287.0" text="P2P Server View" />
+         </children>
+      </Pane>
+   </children>
+</Pane>
+</fx:root>

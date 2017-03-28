@@ -7,6 +7,7 @@ package MessageManipulator;
 
 
 import DatabaseManager.Directory;
+import DatabaseManager.Entry;
 import FileOperations.FileReader;
 import TCPInteractionPrototype.ServerThread;
 import java.net.InetAddress;
@@ -81,7 +82,10 @@ public class MessageInterpreter implements MessageData{
             String name = entry[0];
             int size = Integer.parseInt(entry[1]);
             System.out.println("entry " + i + " name: " + name + " size: " + size + " ip: " + ip.toString());
-            directory.addToDirectory(name, size, ip);
+            Entry toCheck = new Entry(name,ip, size);
+            if(!directory.contains(toCheck)){
+                directory.addToDirectory(name, size, ip);
+            }
         }
     }
     
@@ -99,13 +103,22 @@ public class MessageInterpreter implements MessageData{
             int size = Integer.parseInt(entry[1]);
             InetAddress ip = null;
             try {
-                ip = InetAddress.getByName(entry[2].replaceAll("/", ""));
+                String[] split = entry[2].split("/");
+                ip = InetAddress.getByName(split[0]);
             } catch (UnknownHostException ex) {
                 Logger.getLogger(MessageInterpreter.class.getName()).log(Level.SEVERE, null, ex);
                 System.out.println("IP address is invalid");
             }
-            System.out.println("entry " + i + " name: " + name + " size: " + size + " ip: " + ip.toString());
-            directory.addToDirectory(name, size, ip);
+            InetAddress compareTo = null;
+            try {
+                compareTo = InetAddress.getLocalHost();
+            } catch (UnknownHostException ex) {
+                Logger.getLogger(MessageInterpreter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if(!compareTo.equals(ip)){
+            //System.out.println("entry " + i + " name: " + name + " size: " + size + " ip: " + ip.toString());
+                directory.addToDirectory(name, size, ip);
+            }
         }
     }
 }

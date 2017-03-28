@@ -9,28 +9,33 @@ import MessageManipulator.MessageWriter;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
- *  directory holding all entrys
+ *  directory holding all entries
  *  i should make this a singleton later and make it a proper database, but this works for now
  * @author owen
  */
 public class Directory {
-    private final ArrayList<Entry> entries = new ArrayList();
+    ObservableList<Entry> entries;
     private String path;
     
     /**
      * constructor for Server
+     * @param entries
      */
-    public Directory(){ 
+    public Directory(ObservableList<Entry> entries){ 
+        this.entries = entries;
     }
     
     /**
      * constructor for local server
      * @param path 
      */
-    public Directory(String path){
+    public Directory(String path, ObservableList<Entry> entries){
         this.path = path;
+        this.entries = entries;
     }
     
     
@@ -64,7 +69,7 @@ public class Directory {
     public String query(String fileName, int size)
     {
         String response;
-        ArrayList<Entry> queries = new ArrayList();
+        ObservableList<Entry> queries = FXCollections.observableList(new ArrayList<Entry>());
         for(int i=0; i<entries.size(); i++)
         {
             if(fileName.equals(entries.get(i).getName()) && size == entries.get(i).getSize())
@@ -98,7 +103,7 @@ public class Directory {
      * @param entries
      * @return 
      */
-    public String getAllData(ArrayList<Entry> entries)
+    public String getAllData(ObservableList<Entry> entries)
     {
         MessageWriter writer = new MessageWriter();
         String response = "";
@@ -119,5 +124,15 @@ public class Directory {
     
     public String getPath(){
         return path;
+    }
+    
+    public boolean contains(Entry checkAgainst){
+        for (int i = 0; i < entries.size(); i++){
+            Entry entry = entries.get(i);
+            if (entry.getName().equals(checkAgainst.getName()) && entry.getSize() == checkAgainst.getSize() && entry.getIp().equals(checkAgainst.getIp())){
+                return true;
+            }
+        }
+        return false;
     }
 }

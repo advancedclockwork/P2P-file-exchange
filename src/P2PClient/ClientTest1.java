@@ -6,20 +6,24 @@
 package P2PClient;
 
 import DatabaseManager.Directory;
+import DatabaseManager.Entry;
 import MessageManipulator.MessageWriter;
 import TCPInteractionPrototype.ClientToClientAction;
 import TCPInteractionPrototype.ClientToServerAction;
 import TCPInteractionPrototype.ServerAction;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  * The main class for the client. mostly for testing at the moment. will probably replace with an applet or something at some point
  * @author Owen
  */
-public class Client {
+public class ClientTest1 {
     private final static String PATH = "H:\\documents\\My Documents";
     private final static String FILENAME = "test.txt";
     /**
@@ -30,13 +34,14 @@ public class Client {
         int directoryPort = 9000; //temp for testing
         int servPort = 2009;
         int command = 1;
-        Directory localDirectory = new Directory(PATH);
+        ObservableList<Entry> entries = FXCollections.observableList(new ArrayList<Entry>());
+        Directory localDirectory = new Directory(PATH, entries);
         
         InetAddress ip = null;
         try {
             ip = InetAddress.getLocalHost(); // still temp for testing
         } catch (UnknownHostException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClientTest1.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("couldnt get host ip");
         }
         ClientToServerAction client = new ClientToServerAction(ip,directoryPort, localDirectory);

@@ -15,13 +15,17 @@ public class Entry {
     
     private final String name;
     private final InetAddress ip;
+    private final String userName;
     private final int size;
+    private final String sizeOfFile;
     
     public Entry(String name, InetAddress ip, int size)
     {
         this.name = name;
         this.ip = ip;
         this.size = size;
+        userName = ip.getHostName();
+        sizeOfFile = Integer.toString(size);
     }
     public String getName(){
         return name;
@@ -31,5 +35,11 @@ public class Entry {
     }
     public InetAddress getIp(){
         return ip;
+    }
+    public String getUserName(){
+        return userName;
+    }
+    public String getSizeOfFile(){
+        return sizeOfFile;
     }
 }
