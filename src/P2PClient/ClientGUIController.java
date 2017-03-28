@@ -66,9 +66,11 @@ public class ClientGUIController extends VBox{
     
     @FXML 
     private void downloadRequest(ActionEvent event){
-        InetAddress clientIP;
-        String fileName;
+        Entry focus = downloadableFilesTable.getSelectionModel().getSelectedItem();
+        InetAddress clientIP = focus.getIp();
+        String fileName = focus.getName();
         ClientToClientAction request = new ClientToClientAction(clientIP, requestPort, PATH, fileName );
+        MessageWriter writer = new MessageWriter();
         String message = writer.composeFileRequest(fileName);
         request.changeMessage(message);
         new Thread(request).start();
