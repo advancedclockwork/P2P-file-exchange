@@ -6,6 +6,7 @@
 package DatabaseManager;
 
 import MessageManipulator.MessageWriter;
+import java.math.BigInteger;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +20,7 @@ import javafx.collections.ObservableList;
  */
 public class Directory {
     ObservableList<Entry> entries;
-    private String path;
+    private String path = null;
     
     /**
      * constructor for Server
@@ -29,17 +30,8 @@ public class Directory {
         this.entries = entries;
     }
     
-    /**
-     * constructor for local server
-     * @param path 
-     */
-    public Directory(String path, ObservableList<Entry> entries){
-        this.path = path;
-        this.entries = entries;
-    }
     
-    
-    public void addToDirectory(String fileName, int fileSize, InetAddress host){
+    public void addToDirectory(String fileName, BigInteger fileSize, InetAddress host){
         Entry entry = new Entry(fileName, host, fileSize);
         entries.add(entry);
     }
@@ -66,13 +58,13 @@ public class Directory {
      * @param size
      * @return 
      */
-    public String query(String fileName, int size)
+    public String query(String fileName, BigInteger size)
     {
         String response;
         ObservableList<Entry> queries = FXCollections.observableList(new ArrayList<Entry>());
         for(int i=0; i<entries.size(); i++)
         {
-            if(fileName.equals(entries.get(i).getName()) && size == entries.get(i).getSize())
+            if(fileName.equals(entries.get(i).getName()))
             {
                 queries.add(entries.get(i));
             }
@@ -124,6 +116,10 @@ public class Directory {
     
     public String getPath(){
         return path;
+    }
+    
+    public void changePath(String path){
+        this.path = path;
     }
     
     public boolean contains(Entry checkAgainst){

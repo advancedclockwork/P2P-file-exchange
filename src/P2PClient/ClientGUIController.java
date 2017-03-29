@@ -10,6 +10,7 @@ import DatabaseManager.Entry;
 import MessageManipulator.MessageWriter;
 import TCPInteractionPrototype.ClientToClientAction;
 import TCPInteractionPrototype.ClientToServerAction;
+import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.logging.Level;
@@ -22,8 +23,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 
 /**
  *
@@ -55,13 +61,41 @@ public class ClientGUIController extends VBox{
     @FXML
     private Button exitButton;
     
+    @FXML
+    private TextField enterFilePath;
+    
+    @FXML
+    private Text browseFiles;
+    
+    @FXML
+    private void enterFilePath(ActionEvent event) {
+        localDirectory.changePath(enterFilePath.getText());
+        System.out.println(localDirectory.getPath());
+    }
+    
+    @FXML
+    void selectFileView(MouseEvent event) {
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("Select Folder To Share");
+        Stage stage = new Stage();
+        final File selectedDirectory = chooser.showDialog(stage);
+        if (selectedDirectory != null) {
+            String path = selectedDirectory.getAbsolutePath();
+            localDirectory.changePath(path);
+            enterFilePath.setText(path);
+            System.out.println(localDirectory.getPath());
+        }
+    }
+    
     @FXML 
     private void informAndUpdate(ActionEvent event){
-        ClientToServerAction action = new ClientToServerAction(serverIp, serverPort, localDirectory);
-        new Thread(action).start();
-        MessageWriter writer = new MessageWriter();
-        String message = writer.composeInformAndUpdate(serverIp, localDirectory.getPath());
-        action.changeMessage(message);
+        if(localDirectory.getPath() != null){
+            ClientToServerAction action = new ClientToServerAction(serverIp, serverPort, localDirectory);
+            new Thread(action).start();
+            MessageWriter writer = new MessageWriter();
+            String message = writer.composeInformAndUpdate(serverIp, localDirectory.getPath());
+            action.changeMessage(message);
+        }
     }
     
     @FXML 

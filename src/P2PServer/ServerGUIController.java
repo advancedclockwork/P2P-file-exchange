@@ -8,12 +8,14 @@ package P2PServer;
 import DatabaseManager.Entry;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
@@ -21,6 +23,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 /**
  *
@@ -51,6 +54,23 @@ public class ServerGUIController extends VBox {
 
     @FXML
     private Pane namePlate;
+    
+    @FXML
+    private void initialize(){
+        String hostName = "";
+        try {
+            InetAddress host = InetAddress.getLocalHost();
+            if(host.getHostName()!= null){
+                hostName = host.getHostAddress();
+            }
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(ServerGUIController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        currentIPLabel.setText(hostName);
+    };
+    
+    @FXML
+    private Label currentIPLabel;
     
     ObservableList<Entry> entries;
     

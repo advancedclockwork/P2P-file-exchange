@@ -59,6 +59,8 @@ public class ClientToServerAction extends TCPAction{
                 }
                 System.out.println("exchange with server completed");
                 isRunning = false;
+                Thread.currentThread().interrupt();
+                return;
             }
         }
     }

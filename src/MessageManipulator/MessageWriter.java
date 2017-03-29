@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package MessageManipulator;
+import java.math.BigInteger;
 import java.net.InetAddress;
 
 /**
@@ -22,12 +23,13 @@ public class MessageWriter implements MessageData{
     public String composeInformAndUpdate(InetAddress ip, String path)
     {
         String response = "1" + commandDivider;
-        FolderReader reader = new FolderReader(path);
-        response += reader.getContents();
+        FolderReader reader = new FolderReader();
+        response += reader.getContents(path);
+        System.out.println(response);
         return response;
     }
     
-    public String composeInformAndUpdateResponse(String name, int size, InetAddress ip){
+    public String composeInformAndUpdateResponse(String name, BigInteger size, InetAddress ip){
         String entry = name + messageDivider + size + messageDivider + ip + entryDivider;
         return entry;
     }

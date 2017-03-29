@@ -11,23 +11,15 @@ import java.io.File;
  * @author owen
  */
 public class FolderReader implements MessageData{
-    private File storage;
-    
-    /**
-     * creates a FolderReader object targeting the given file path
-     * @param path 
-     */
-    public FolderReader(String path){
-        storage = new File(path);
-    }
     
     /**
      * reads all files in the selected directory and return them as a string separated with messageDivider and entryDivider final variables contained in MessageData
      * @return string of folders with custom dividers contained in MessageData
      */
     
-    public String getContents()  // make this recursive later to read contents of directories inside of selected directory
+    public String getContents(String path)  // make this recursive later to read contents of directories inside of selected directory
     {
+        File storage = new File(path);
         String response = "";
         File[] listOfFiles = storage.listFiles();
         for (int i = 0; i < listOfFiles.length; i++) {

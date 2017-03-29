@@ -10,6 +10,7 @@ import DatabaseManager.Directory;
 import DatabaseManager.Entry;
 import FileOperations.FileReader;
 import TCPInteractionPrototype.ServerThread;
+import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
@@ -48,11 +49,13 @@ public class MessageInterpreter implements MessageData{
         //String command = Integer.parseInt(commandSplit[0]);
         switch (commandSplit[0]){
             case "1": 
-                addToDirectory(commandSplit[1], ip);
-                result = directory.query();
-                //writer.composeInformAndUpdateResponse(result);
-                server.changeMessage(result);
-                System.out.println(result);
+                if(commandSplit[1]!= null){
+                    addToDirectory(commandSplit[1], ip);
+                    result = directory.query();
+                    //writer.composeInformAndUpdateResponse(result);
+                    server.changeMessage(result);
+                    System.out.println(result);
+                }
                 break;
             case "2":
                 result = directory.query();
@@ -80,7 +83,7 @@ public class MessageInterpreter implements MessageData{
         {
             String[] entry = entries[i].split(messageDivider);
             String name = entry[0];
-            int size = Integer.parseInt(entry[1]);
+            BigInteger size = new BigInteger(entry[1]);
             System.out.println("entry " + i + " name: " + name + " size: " + size + " ip: " + ip.toString());
             Entry toCheck = new Entry(name,ip, size);
             if(!directory.contains(toCheck)){
@@ -100,7 +103,7 @@ public class MessageInterpreter implements MessageData{
             String[] entry = entries[i].split(messageDivider);
             System.out.println("entry:" + entry[0]);
             String name = entry[0];
-            int size = Integer.parseInt(entry[1]);
+            BigInteger size = new BigInteger(entry[1]);
             InetAddress ip = null;
             try {
                 String[] split = entry[2].split("/");

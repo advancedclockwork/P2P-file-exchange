@@ -28,16 +28,14 @@ import sun.applet.Main;
 public class ClientGUIModel extends Application {
     private final int directoryPort = 9000;
     private final int requestPort = 9007;
-    private final String path = "H:\\documents\\My Documents";
     
     @Override
     public void start(Stage stage){
-        
         InetAddress ip = null;
         try {
             ip = InetAddress.getLocalHost(); // still temp for testing
         } catch (UnknownHostException ex) {
-            Logger.getLogger(ClientTest1.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClientGUIModel.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("couldnt get host ip");
         }
         
@@ -45,7 +43,7 @@ public class ClientGUIModel extends Application {
         
         try{
             ObservableList<Entry> entries = FXCollections.observableList(new ArrayList<Entry>());
-            Directory directory = new Directory(path, entries);
+            Directory directory = new Directory(entries);
             ClientGUIController controller = new ClientGUIController(entries, directoryPort, ip, directory);
             stage.setScene(new Scene(controller));
             stage.setTitle("P2P File Exchange Directory");

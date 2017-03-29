@@ -61,6 +61,8 @@ public class ClientToClientAction extends TCPAction{
                     inFromServer.close();
                     outToServer.close();
                     clientSocket.close();
+                    Thread.currentThread().interrupt();
+                    return;
                 } catch (IOException ex) {
                     Logger.getLogger(ClientToServerAction.class.getName()).log(Level.SEVERE, null, ex);
                 }

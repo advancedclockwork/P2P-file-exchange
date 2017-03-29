@@ -61,6 +61,8 @@ public class ServerThread extends TCPAction {
                 }catch(IOException e){
                     e.printStackTrace();
                 }
+                Thread.currentThread().interrupt();
+                return;
             }
         }
     }
